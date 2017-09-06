@@ -1,4 +1,4 @@
-#FEND Project 8 - Testing with Jasmine
+# FEND Project 8 - Testing with Jasmine
 
 ## Running the application
 
