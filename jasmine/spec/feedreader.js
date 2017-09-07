@@ -99,7 +99,7 @@ $(function() {
         });
 
         it('should have one entry in feed', function(done) {
-            var entry = $('.feed.entry');
+            var entry = $('.feed .entry');
             expect(entry.length).toBeGreaterThan(0);
             done();
         });
