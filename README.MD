@@ -2,4 +2,4 @@
 
 ## Running the application
 
-Download or clone the repository and run index.html. Tests are contained in jasmine/spec/feereader.js
+Download or clone the repository and run index.html. Tests are contained in jasmine/spec/feedreader.js

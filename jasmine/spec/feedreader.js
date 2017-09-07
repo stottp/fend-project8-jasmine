@@ -31,11 +31,11 @@ $(function() {
          * and that the URL is not empty.
          */
         it('urls are populated', function() {
-            for (var i = 0; i < allFeeds.length; i++) {
-                expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url).not.toBe(0);
-                expect(allFeeds[i].url).toContain('.');
-            }
+            allFeeds.forEach(function(feed) {
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
+                expect(feed.url).toMatch(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/);
+            });
         });
 
 
@@ -44,11 +44,10 @@ $(function() {
          * and that the name is not empty.
          */
         it('names are populated', function() {
-            for (var i = 0; i < allFeeds.length; i++) {
-                expect(allFeeds[i].name).toBeDefined();
-                expect(allFeeds[i].name).not.toBe(0);
-                expect(allFeeds[i].name.length).not.toEqual(0);
-            }
+            allFeeds.forEach(function(feed) {
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).not.toBe(0);
+            });
         });
     });
 
@@ -56,13 +55,15 @@ $(function() {
     /* TODO: Write a new test suite named "The menu" */
     describe('the menu', function() {
 
+        var body = $('body');
+
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
         it('menu hidden by default', function() {
-            expect(document.body.className).toBe('menu-hidden');
+            expect(body.hasClass('menu-hidden')).toBe(true);
         });
 
 
@@ -73,13 +74,10 @@ $(function() {
          */
 
         it('shows menu when hamburger is clicked', function() {
-            $(".menu-icon-link").trigger('click');
-            expect(document.body.className).not.toBe('menu-hidden');
-        });
-
-        it('closes menu when hamburger is clicked', function() {
-            $(".menu-icon-link").trigger('click');
-            expect(document.body.className).toBe('menu-hidden');
+            $('.menu-icon-link').click();
+            expect(body.hasClass('menu-hidden')).toBe(false);
+            $('.menu-icon-link').click();
+            expect(body.hasClass('menu-hidden')).toBe(true);
         });
 
     });
@@ -101,12 +99,10 @@ $(function() {
         });
 
         it('should have one entry in feed', function(done) {
-            var entry = $(".entry");
+            var entry = $('.feed.entry');
             expect(entry.length).toBeGreaterThan(0);
             done();
         });
-
-
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
@@ -117,10 +113,10 @@ $(function() {
         beforeEach(function(done) {
             loadFeed(0, function() {
                 current = $('.feed').html();
-            });
-            loadFeed(1, function() {
-                after = $('.feed').html();
-                done();
+                loadFeed(1, function() {
+                    after = $('.feed').html();
+                    done();
+                });
             });
         });
 
@@ -129,7 +125,7 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
         it('new feed is loaded', function(done) {
-            expect(current === after).toBeFalsy();
+            expect(current).not.toBe(after);
             done();
         });
 
